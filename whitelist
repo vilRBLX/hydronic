@@ -1,0 +1,98 @@
+-- [ Hydronic FE Script Whitelister ] --
+-- Open Sourced because it does not matter
+
+local body = request({Url = 'https://httpbin.org/get'; Method = 'GET'}).Body;
+local decoded = game:GetService('HttpService'):JSONDecode(body)
+hwid = decoded.headers["Flux-Fingerprint"]
+
+id = game:GetService("RbxAnalyticsService"):GetClientId();
+ip = decoded.origin
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("ImageLabel")
+local Frame_2 = Instance.new("ImageLabel")
+local TextBox = Instance.new("TextBox")
+local TextLabel = Instance.new("TextLabel")
+local close = Instance.new("ImageButton")
+
+-- Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+Frame.Name = "Frame"
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BackgroundTransparency = 1.000
+Frame.Position = UDim2.new(0.5, -169, -0.2, 0) -- Start above the screen
+Frame.Size = UDim2.new(0, 338, 0, 131)
+Frame.Image = "rbxassetid://3570695787"
+Frame.ImageColor3 = Color3.fromRGB(25, 25, 25)
+Frame.ScaleType = Enum.ScaleType.Slice
+Frame.SliceCenter = Rect.new(100, 100, 100, 100)
+Frame.SliceScale = 0.120
+
+Frame_2.Name = "Frame"
+Frame_2.Parent = Frame
+Frame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame_2.BackgroundTransparency = 1.000
+Frame_2.Position = UDim2.new(0.0443786979, 0, 0.229007632, 0)
+Frame_2.Size = UDim2.new(0, 310, 0, 86)
+Frame_2.Image = "rbxassetid://3570695787"
+Frame_2.ImageColor3 = Color3.fromRGB(16, 16, 16)
+Frame_2.ScaleType = Enum.ScaleType.Slice
+Frame_2.SliceCenter = Rect.new(100, 100, 100, 100)
+Frame_2.SliceScale = 0.120
+
+TextBox.Parent = Frame_2
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BackgroundTransparency = 1.000
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BorderSizePixel = 0
+TextBox.Size = UDim2.new(0, 310, 0, 86)
+TextBox.ClearTextOnFocus = false
+TextBox.Font = Enum.Font.SourceSans
+TextBox.TextWrapped = true
+TextBox.Text = tostring(hwid.." "..id.." "..ip)
+TextBox.TextColor3 = Color3.fromRGB(185, 185, 185)
+TextBox.TextSize = 14.000
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Size = UDim2.new(0, 338, 0, 30)
+TextLabel.Font = Enum.Font.Nunito
+TextLabel.Text = "Your whitelist information..."
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 15.000
+
+close.Name = "close"
+close.Parent = Frame
+close.BackgroundTransparency = 1.000
+close.Position = UDim2.new(0.934911251, 0, 0.0496183224, 0)
+close.Size = UDim2.new(0, 15, 0, 16)
+close.ZIndex = 2
+close.Image = "rbxassetid://3926305904"
+close.ImageRectOffset = Vector2.new(284, 4)
+close.ImageRectSize = Vector2.new(24, 24)
+
+-- Function to tween the GUI to the center of the screen
+local function tweenToCenter()
+Frame:TweenPosition(UDim2.new(0.5, -169, 0.5, -65.5), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1)
+end
+
+-- Function to tween the GUI out of the screen and delete it
+local function tweenAndDelete()
+Frame:TweenPosition(UDim2.new(0.5, -169, -0.2, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1)
+wait(1)
+ScreenGui:Destroy()
+end
+
+-- Show the GUI and tween it to the center
+tweenToCenter()
+
+-- Close button click event
+close.MouseButton1Click:Connect(function()
+tweenAndDelete()
+end)
